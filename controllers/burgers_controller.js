@@ -1,5 +1,4 @@
 const express = require("express");
-const cat = require("../../../../RUT-SOM-FSF-PT-09-2020-U-C/13-MVC/01-Activities/16-MVC Example(cats)/models/cat.js");
 const burger = require("../models/burger.js");
 
 const router = express.Router();
