@@ -9,21 +9,17 @@ router.get("/", function (req, res) {
 });
 
 router.get("/burgers", function (req, res) {
-    burger.selectAll(function (data) {
+    burger.all(function (data) {
         res.json({ burgers: data });
     });
 });
 
 //Post will handle creating new burgers
 router.post("/burgers", function (req, res) {
-    burger.insertOne([
-        "burger_name", "devoured"
-    ], [
-        req.body.burger_name, req.body.devoured
-    ], function (result) {
-        //figure out what goes here...
+    burger.create(req.body.burger_name, function (result) {
+        console.log("Controller hit!");
         // Send back the ID of the new quote
-        //res.json
+        res.json(result);
     });
 });
 
@@ -34,8 +30,8 @@ router.put("/burgers/:id", function (req, res) {
     console.log("condition", condition);
 
     //ask about this block and what it does:
-    burger.updateOne({
-        devoured: req.body.devoured
+    burger.update({
+        devoured: 1
     }, condition, function (result) {
         if (result.changedRows == 0) {
             return res.status(404).end();
@@ -45,11 +41,11 @@ router.put("/burgers/:id", function (req, res) {
     });
 });
 
-router.delete("/burgers/:id", function(req,res) {
+router.delete("/burgers/:id", function (req, res) {
     let condition = "id = " + req.params.id;
 
     //why is there no need to pass the "table" into this function here? How does passing work.
-    burger.deleteOne(condition, function(result) {
+    burger.delete(condition, function (result) {
         if (result.affectedRows == 0) {
             return res.status(404).end();
         } else {

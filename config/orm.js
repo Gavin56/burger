@@ -25,19 +25,20 @@ function objToSql(ob) {
   }
 //===================================================================================
 
-function printQuestionMarks(num) {
-    var arr = [];
+// function printQuestionMarks(num) {
+//     var arr = [];
 
-    for (var i = 0; i < num; i++) {
-        arr.push("?");
-    }
+//     for (var i = 0; i < num; i++) {
+//         arr.push("?");
+//     }
 
-    return arr.toString();
-}
+//     return arr.toString();
+// }
 
 let orm = {
-    selectAll: function (tableInput, cb) {
+    all: function (tableInput, cb) {
         let queryString = "SELECT * FROM " + tableInput + ";";
+        console.log(queryString);
         connection.query(queryString, function (err, result) {
             if (err) {
                 throw err;
@@ -45,19 +46,19 @@ let orm = {
             cb(result);
         });
     },
-    insertOne: function (table, cols, vals, cb) {
-        let queryString = "INSERT INTO " + table;
+    create: function (table, vals, cb) {
+        console.log("ORM hit!");
+        let queryString = `INSERT INTO ${table} (burger_name) VALUES (?)`;
 
-        queryString += " (";
-        queryString += cols.toString();
-        queryString += ") ";
-        queryString += "VALUES (";
-        queryString += printQuestionMarks(vals.length);
-        queryString += ") ";
+        // queryString += " (";    
+        // queryString += ") ";
+        // queryString += "VALUES (";
+        // queryString += printQuestionMarks(vals.length);
+        // queryString += ") ";
 
         console.log(queryString);
 
-        connection.query(queryString, vals, function (err, result) {
+        connection.query(queryString, [vals], function (err, result) {
             if (err) {
                 throw err;
             }
@@ -65,10 +66,10 @@ let orm = {
             cb(result);
         });
     },
-    updateOne: function (table, objColVals, condition, cb) {
+    update: function (table, objColVals, condition, cb) {
         let queryString = "UPDATE " + table; 
 
-        queryString += "SET ";
+        queryString += " SET ";
         //Why this function?
         queryString += objToSql(objColVals);
         queryString += " WHERE ";
@@ -83,7 +84,7 @@ let orm = {
             cb(result);
         });
      },
-    deleteOne: function (table, condition, cb) { 
+    delete: function (table, condition, cb) { 
         let queryString = "DELETE FROM " + table;
         queryString += " WHERE ";
         queryString += condition;
