@@ -1,0 +1,26 @@
+h1 {
+    text-align: center;
+}
+
+.container {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#notDevouredDiv {
+    float: left;
+    text-align: center;
+    margin-left:100px;
+}
+
+#devouredDiv {
+    float: right;
+    text-align: center;
+    margin-right:100px;
+}
+
+form {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
